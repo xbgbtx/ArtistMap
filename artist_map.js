@@ -18,6 +18,8 @@ function create_map ()
         attribution: "&copy; <a href=\"https://openstreetmap.org/copyright\">"+
                      "OpenStreetMap contributors</a>"
     }).addTo(map);
+
+    return map;
 }
 
 async function add_locations ( map )
@@ -25,5 +27,14 @@ async function add_locations ( map )
     let response = await fetch("data/raw/test_output/locations.csv");
     let text = await response.text ();
     let lines = text.split ( "\r\n" );
-    console.log ( lines );
+
+    for ( const l of lines.slice(1,100) ) 
+    {
+        let fields = l.split ( "," );
+        [ loc, artist_count, lat, lon ] = fields;
+        L.marker([lon,lat],
+        {
+            title : `${artist_count} artists`
+        }).addTo(map);
+    }
 }
