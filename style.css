@@ -1,0 +1,2 @@
+/* leaflet js map div needs a fixed height */
+#mapdiv { height: 600px; }
