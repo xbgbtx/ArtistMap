@@ -55,10 +55,11 @@ def process_raw_data(data_path):
 def create_output_files(location_bands, out_path):
     with open(out_path / "locations.csv", "w", newline="") as csvfile:
         loc_write = csv.writer(csvfile, delimiter=",")
-        loc_write.writerow(["location", "artist_count","coord"])
+        loc_write.writerow(["location", "artist_count","lat", "long"])
 
         for l in location_bands.keys ():
-            loc_write.writerow([l.wikidata, len(location_bands[l]), l.coord ])
+            loc_write.writerow([l.wikidata, len(location_bands[l]), 
+                                l.coord.x, l.coord.y ])
 
 
 def main(**kwargs):
