@@ -31,10 +31,25 @@ async function add_locations ( map )
     for ( const l of lines.slice(1,100) ) 
     {
         let fields = l.split ( "," );
+        let loc, artist_count, lat, lon;
+
         [ loc, artist_count, lat, lon ] = fields;
+
         L.marker([lon,lat],
         {
             title : `${artist_count} artists`
-        }).addTo(map);
+        })
+            .on ( "click", () => location_clicked ( loc ) ) 
+            .addTo(map);
     }
+}
+
+function location_clicked ( loc_id )
+{
+    let info_div = document.getElementById ( "infodiv" );
+
+    let data_url = `https://www.wikidata.org/wiki/${loc_id}`
+    let data_anc = `<a href="${data_url}">${loc_id}</a>`
+
+    info_div.innerHTML = `Loc: ${data_anc}`;
 }
