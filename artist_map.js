@@ -1,8 +1,10 @@
-function page_loaded ()
+async function page_loaded ()
 {
     console.log ( "Artist Map starting..." );
 
     let map = create_map ();
+
+    await add_locations ( map );
 }
 
 function create_map ()
@@ -16,4 +18,12 @@ function create_map ()
         attribution: "&copy; <a href=\"https://openstreetmap.org/copyright\">"+
                      "OpenStreetMap contributors</a>"
     }).addTo(map);
+}
+
+async function add_locations ( map )
+{
+    let response = await fetch("data/raw/test_output/locations.csv");
+    let text = await response.text ();
+    let lines = text.split ( "\r\n" );
+    console.log ( lines );
 }
