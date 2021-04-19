@@ -30,10 +30,14 @@ def parse_point(s):
     return p
 
 
+def strip_wikidata(s):
+    m = re.search("http://www.wikidata.org/entity/(Q.+)$", s)
+    return m.group(1)
+
 def process_row(row):
     p = parse_point(row["coor"])
-    loc = Location(row["location"], p)
-    band = Band(row["band"])
+    loc = Location(strip_wikidata(row["location"]), p)
+    band = Band(strip_wikidata(row["band"]))
     return ( loc, band )
 
 
