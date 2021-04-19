@@ -37,7 +37,7 @@ def process_row(row):
     return ( loc, band )
 
 
-def process_raw_data( data_path ):
+def process_raw_data(data_path):
     location_bands = dict()
     with open(data_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -48,11 +48,22 @@ def process_raw_data( data_path ):
     return location_bands
 
 
+def create_output_files(location_bands, out_path):
+    with open(out_path / "locations.csv", "w", newline="") as csvfile:
+        loc_write = csv.writer(csvfile, delimiter=",")
+        loc_write.writerow(["location", "artist_count","coord"])
+
+        for l in location_bands.keys ():
+            loc_write.writerow([l.wikidata, len(location_bands[l]), l.coord ])
+
+
 def main(**kwargs):
     data_path = Path ( kwargs [ "data_path" ] ).resolve ()
+    out_path = Path ( kwargs [ "out_path" ] ).resolve ()
     print ( f"Artists Data Processing: {data_path}." )
 
     location_bands = process_raw_data(data_path)
+    create_output_files(location_bands, out_path)
 
 
 if __name__ == "__main__":
@@ -61,7 +72,8 @@ if __name__ == "__main__":
                                      formatter_class=formatter)
 
     parser.add_argument("data_path", help="Path to raw csv")
+    parser.add_argument("out_path", help="Path to output directory")
 
     args = parser.parse_args ()
 
-    main (data_path=args.data_path)
+    main (data_path=args.data_path, out_path=args.out_path)
