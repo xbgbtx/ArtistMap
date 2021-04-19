@@ -13,3 +13,16 @@ SELECT DISTINCT ?band ?location WHERE {
    ?location wdt:P625 ?coor.
 }
 ```
+
+Get the wikipedia article for a wikidata item:
+
+```
+SELECT ?name ?article WHERE {
+   ?article schema:about wd:Q9920 ;
+      schema:inLanguage ?lang ;
+      schema:name ?name ;
+      schema:isPartOf <https://en.wikipedia.org/>; .
+   FILTER (!CONTAINS(?name, ':')) .
+   FILTER(?lang in ('en') ).
+}
+```
