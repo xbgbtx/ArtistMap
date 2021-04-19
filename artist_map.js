@@ -7,7 +7,7 @@ function page_loaded ()
 
 function create_map ()
 {
-    let map = L.map ("mapdiv").setView ( [51.505, -0.09], 13 );
+    let map = L.map ("mapdiv").setView ( [51.505, -0.09], 2 );
 
     // Add OpenStreetMap tiles
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", 
