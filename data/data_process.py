@@ -30,6 +30,15 @@ class Band:
     wikidata: str
 
 
+    @staticmethod
+    def csv_headers():
+        return ["band"]
+
+    def csv_data(self):
+        return [self.wikidata]
+
+
+
 def parse_point(s):
     m = re.search("Point\((.+) (.+)\)", s )
     p = Point(float(m.group(1)), float(m.group(2)))
@@ -69,13 +78,17 @@ def location_data(location_bands):
     data = []
     data.append ( Location.csv_headers () + [ "artist_count" ] )
 
-    for loc in list(location_bands.keys ()):
-        data.append ( loc.csv_data () + [ len ( location_bands [ loc ] ) ] )
+    for loc, bands in location_bands.items():
+        data.append ( loc.csv_data () + [ len ( bands ) ] )
 
     return data
 
 def create_output_files(location_bands, out_path):
     write_csv_data(location_data(location_bands), out_path / "locations.csv")
+
+    for loc, bands in location_bands.items ():
+        data = [ Band.csv_headers () ] + [ x.csv_data() for x in bands ]
+        write_csv_data(data, out_path / f"{loc.wikidata}.csv" )
 
 
 
