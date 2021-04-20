@@ -25,22 +25,15 @@ function create_map ()
 
 async function add_locations ( map )
 {
-    let response = await fetch(`${marker_data_url}/locations.csv`);
-    let text = await response.text ();
-    let lines = text.split ( "\r\n" );
+    let locs = await get_marker_data ( "locations" );
 
-    for ( const l of lines.slice(1,100) ) 
+    for ( const loc of locs.slice(0,100) ) 
     {
-        let fields = l.split ( "," );
-        let loc, lon, lat, artist_count;
-
-        [ loc, lat, lon, artist_count ] = fields;
-
-        L.marker([lat,lon],
+        L.marker([loc.lat,loc.lon],
         {
-            title : `${artist_count} artists`
+            title : `${loc.artist_count} artists`
         })
-            .on ( "click", () => location_clicked ( loc ) ) 
+            .on ( "click", () => location_clicked ( loc.location ) ) 
             .addTo(map);
     }
 }
@@ -54,14 +47,39 @@ async function location_clicked ( loc_id )
 
     info_div.innerHTML = `Loc: ${data_anc}`;
 
-    let response = await fetch(`${marker_data_url}/${loc_id}.csv`);
+    let loc_bands = await get_marker_data ( loc_id );
+
+    console.log ( loc_bands );
+
+    for ( const b of loc_bands )
+    {
+        let band_data_url = `https://www.wikidata.org/wiki/${b.band}`
+        info_div.innerHTML += `<br/>Band: <a href="${band_data_url}">${b.band}</a>`
+    }
+}
+
+
+async function get_marker_data ( id )
+{
+    let response = await fetch(`${marker_data_url}/${id}.csv`);
     let text = await response.text ();
     let lines = text.split ( "\r\n" );
 
-    for ( const l of lines.slice(1) )
+    headers = lines [ 0 ].split(",");
+
+    data = lines.slice ( 1 ).map ( ( line, idx ) =>
     {
-        let band_data_url = `https://www.wikidata.org/wiki/${l}`
-        info_div.innerHTML += `<br/>Band: <a href="${band_data_url}">${l}</a>`
-    }
-    
+        item = {};
+        fields = line.split(",");
+
+        if ( line.length < 1 || fields.length != headers.length )
+            return null;
+
+        fields.forEach ( ( f, idx ) => item [ headers[idx] ] = f );
+        return item;
+    });
+
+    data = data.filter ( x => x !== null );
+
+    return data;
 }
