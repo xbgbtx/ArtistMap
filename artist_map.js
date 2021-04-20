@@ -1,3 +1,4 @@
+const marker_data_url="data/raw/test_output"
 async function page_loaded ()
 {
     console.log ( "Artist Map starting..." );
@@ -24,7 +25,7 @@ function create_map ()
 
 async function add_locations ( map )
 {
-    let response = await fetch("data/raw/test_output/locations.csv");
+    let response = await fetch(`${marker_data_url}/locations.csv`);
     let text = await response.text ();
     let lines = text.split ( "\r\n" );
 
@@ -44,12 +45,23 @@ async function add_locations ( map )
     }
 }
 
-function location_clicked ( loc_id )
+async function location_clicked ( loc_id )
 {
     let info_div = document.getElementById ( "infodiv" );
 
-    let data_url = `https://www.wikidata.org/wiki/${loc_id}`
-    let data_anc = `<a href="${data_url}">${loc_id}</a>`
+    let loc_data_url = `https://www.wikidata.org/wiki/${loc_id}`
+    let data_anc = `<a href="${loc_data_url}">${loc_id}</a>`
 
     info_div.innerHTML = `Loc: ${data_anc}`;
+
+    let response = await fetch(`${marker_data_url}/${loc_id}.csv`);
+    let text = await response.text ();
+    let lines = text.split ( "\r\n" );
+
+    for ( const l of lines.slice(1) )
+    {
+        let band_data_url = `https://www.wikidata.org/wiki/${l}`
+        info_div.innerHTML += `<br/>Band: <a href="${band_data_url}">${l}</a>`
+    }
+    
 }
