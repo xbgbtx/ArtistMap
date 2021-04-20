@@ -18,6 +18,12 @@ class Location:
     wikidata: str
     coord: Point
 
+    @staticmethod
+    def csv_headers():
+        return ["location", "lat", "lon"]
+
+    def csv_data(self):
+        return [self.wikidata,self.coord.y,self.coord.x]
 
 @dataclass(frozen=True)
 class Band:
@@ -52,14 +58,25 @@ def process_raw_data(data_path):
     return location_bands
 
 
-def create_output_files(location_bands, out_path):
-    with open(out_path / "locations.csv", "w", newline="") as csvfile:
-        loc_write = csv.writer(csvfile, delimiter=",")
-        loc_write.writerow(["location", "artist_count","lat", "long"])
+def write_csv_data( data, out_path ):
+    with open(out_path, "w", newline="") as csvfile:
+        w = csv.writer(csvfile, delimiter=",")
+        for d in data:
+            w.writerow(d)
 
-        for l in location_bands.keys ():
-            loc_write.writerow([l.wikidata, len(location_bands[l]), 
-                                l.coord.x, l.coord.y ])
+
+def location_data(location_bands):
+    data = []
+    data.append ( Location.csv_headers () + [ "artist_count" ] )
+
+    for loc in list(location_bands.keys ()):
+        data.append ( loc.csv_data () + [ len ( location_bands [ loc ] ) ] )
+
+    return data
+
+def create_output_files(location_bands, out_path):
+    write_csv_data(location_data(location_bands), out_path / "locations.csv")
+
 
 
 def main(**kwargs):

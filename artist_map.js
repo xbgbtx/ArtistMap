@@ -31,11 +31,11 @@ async function add_locations ( map )
     for ( const l of lines.slice(1,100) ) 
     {
         let fields = l.split ( "," );
-        let loc, artist_count, lat, lon;
+        let loc, lon, lat, artist_count;
 
-        [ loc, artist_count, lat, lon ] = fields;
+        [ loc, lat, lon, artist_count ] = fields;
 
-        L.marker([lon,lat],
+        L.marker([lat,lon],
         {
             title : `${artist_count} artists`
         })
