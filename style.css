@@ -8,44 +8,71 @@
 .dc-pancake-child
 {
    flex: 0 0 600px;
+   margin: 20px;
 }
 
 /* leaflet js map div needs a fixed height */
 #mapdiv 
 { 
-   width: 800px; 
-   height: 600px; 
+   width: 640px; 
+   height: 640px; 
 }
 
 #infodiv
 {
-   flex: 1 1 600px;
+   flex: 0 0 600px;
    border: 5px solid #1C6EA4;
 }
 
 .header 
 {
+   display: flex;
    padding: 20px;
    text-align: center;
    background: #1abc9c;
    color: white;
-   font-size: 20px;
+   font-size: 40px;
+   align-items: center;
 }
 
-#infodiv img
+.header a
 {
-   width: 100px;
-   height: 100px;
+   margin-left : 30px;
+}
+
+.header img
+{
+   width: 152px;
+   height: 152px;
 }
 
 .artist_info
 {
-   width: 100%;
+   display: flex;
    padding: 6px;
    background: #fff;
+   align-items: center;
+   font-size: 24px;
 }
 
 .artist_info:nth-of-type(odd) 
 {
    background: #eee;
+}
+
+.artist_info a
+{
+   margin-left : 30px;
+}
+
+.artist_info img
+{
+   width: 128px;
+   height: 128px;
+}
+
+.scroll
+{
+   height: 440px;
+   overflow: auto;
 }
