@@ -1,6 +1,24 @@
+.dc-pancake-parent
+{
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+}
+
+.dc-pancake-child
+{
+   flex: 0 0 600px;
+}
+
 /* leaflet js map div needs a fixed height */
 #mapdiv 
 { 
    width: 800px; 
    height: 600px; 
+}
+
+#infodiv
+{
+   flex: 1 1 600px;
+   border: 5px solid #1C6EA4;
 }
