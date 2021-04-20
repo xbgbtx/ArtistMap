@@ -22,3 +22,21 @@
    flex: 1 1 600px;
    border: 5px solid #1C6EA4;
 }
+
+.header 
+{
+   padding: 20px;
+   text-align: center;
+   background: #1abc9c;
+   color: white;
+   font-size: 20px;
+}
+
+.content
+{
+}
+
+.content ul
+{
+   list-style-type: circle;
+}
