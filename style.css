@@ -19,6 +19,15 @@
    height: 640px; 
 }
 
+.map_cluster
+{
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   background: #fff;
+   font-size: 18px;
+}
+
 #infodiv
 {
    flex: 0 0 600px;
