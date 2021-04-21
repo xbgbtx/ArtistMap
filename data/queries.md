@@ -26,3 +26,26 @@ SELECT ?name ?article WHERE {
    FILTER(?lang in ('en') ).
 }
 ```
+
+Ensemble locations:
+```
+SELECT DISTINCT ?artist ?location ?coor WHERE {
+
+     ?artist wdt:P31/wdt:P279* wd:Q2088357 ;  
+               wdt:P740 ?location .
+  
+   ?location wdt:P625 ?coor.
+}
+```
+
+Musician Locations:
+```
+SELECT DISTINCT ?artist ?location ?coor WHERE {
+
+     ?artist wdt:P106 wd:Q639669 ;  
+               wdt:P19 ?location .
+  
+   ?location wdt:P625 ?coor.
+}
+}
+```

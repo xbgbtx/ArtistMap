@@ -26,13 +26,13 @@ class Location:
         return [self.wikidata,self.coord.y,self.coord.x]
 
 @dataclass(frozen=True)
-class Band:
+class Artist:
     wikidata: str
 
 
     @staticmethod
     def csv_headers():
-        return ["band"]
+        return ["artist"]
 
     def csv_data(self):
         return [self.wikidata]
@@ -52,19 +52,23 @@ def strip_wikidata(s):
 def process_row(row):
     p = parse_point(row["coor"])
     loc = Location(strip_wikidata(row["location"]), p)
-    band = Band(strip_wikidata(row["band"]))
-    return ( loc, band )
+    artist = Artist(strip_wikidata(row["artist"]))
+    return ( loc, artist )
 
 
 def process_raw_data(data_path):
-    location_bands = dict()
+    location_artists = dict()
     with open(data_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            row_data = process_row(row)
-            location_bands.setdefault(row_data[0], []).append(row_data[1])
+            print(row)
+            if len(row) != 3:
+                continue
 
-    return location_bands
+            row_data = process_row(row)
+            location_artists.setdefault(row_data[0], []).append(row_data[1])
+
+    return location_artists
 
 
 def write_csv_data( data, out_path ):
@@ -74,20 +78,20 @@ def write_csv_data( data, out_path ):
             w.writerow(d)
 
 
-def location_data(location_bands):
+def location_data(location_artists):
     data = []
     data.append ( Location.csv_headers () + [ "artist_count" ] )
 
-    for loc, bands in location_bands.items():
-        data.append ( loc.csv_data () + [ len ( bands ) ] )
+    for loc, artists in location_artists.items():
+        data.append ( loc.csv_data () + [ len ( artists ) ] )
 
     return data
 
-def create_output_files(location_bands, out_path):
-    write_csv_data(location_data(location_bands), out_path / "locations.csv")
+def create_output_files(location_artists, out_path):
+    write_csv_data(location_data(location_artists), out_path / "locations.csv")
 
-    for loc, bands in location_bands.items ():
-        data = [ Band.csv_headers () ] + [ x.csv_data() for x in bands ]
+    for loc, artists in location_artists.items ():
+        data = [ Artist.csv_headers () ] + [ x.csv_data() for x in artists ]
         write_csv_data(data, out_path / f"{loc.wikidata}.csv" )
 
 
@@ -97,8 +101,8 @@ def main(**kwargs):
     out_path = Path ( kwargs [ "out_path" ] ).resolve ()
     print ( f"Artists Data Processing: {data_path}." )
 
-    location_bands = process_raw_data(data_path)
-    create_output_files(location_bands, out_path)
+    location_artists = process_raw_data(data_path)
+    create_output_files(location_artists, out_path)
 
 
 if __name__ == "__main__":
