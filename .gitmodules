@@ -1,0 +1,3 @@
+[submodule "lib/Leaflet.markercluster"]
+	path = lib/Leaflet.markercluster
+	url = git@xbgbtx:Leaflet/Leaflet.markercluster.git
