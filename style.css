@@ -3,7 +3,7 @@
    display: flex;
    flex-wrap: wrap;
    justify-content: center;
-   height: 100vh;
+   height: 80vh;
 }
 
 .dc-pancake-child
@@ -13,6 +13,15 @@
    border: 5px solid #1C6EA4;
    min-width: 200px; 
    min-height: 200px; 
+}
+
+.top-bar
+{
+   text-align: center;
+}
+.bottom-bar
+{
+   text-align: center;
 }
 
 /* leaflet js map div needs a fixed height */
