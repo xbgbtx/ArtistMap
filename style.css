@@ -73,3 +73,22 @@
 {
    display: none;
 }
+
+.easy-button-button 
+{ 
+   padding : 0px; 
+} 
+.easy-button-button span
+{ 
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+.button_icon
+{
+   width: 24px;
+   height:24px;
+
+   margin : 0 auto;
+   padding-top: 3px;
+}
