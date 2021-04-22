@@ -1,29 +1,18 @@
-.dc-pancake-parent
+.map_flex_parent
 {
    display: flex;
    flex-wrap: wrap;
-   justify-content: center;
-   height: 80vh;
+   height: 95vh;
+   width: 95vw;
 }
 
-.dc-pancake-child
+.map_flex_child
 {
    flex: 1 1 600px;
    border: 5px solid #1C6EA4;
    min-width: min-content; 
    min-height: min-content; 
    margin: 0px;
-}
-
-.bar
-{
-   text-align: center;
-   color: white;
-   background: #1C6EA4;
-   width: 100%;
-   margin: 0px;
-   padding: 4px;
-
 }
 
 #mapdiv 
