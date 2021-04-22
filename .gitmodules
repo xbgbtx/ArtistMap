@@ -1,3 +1,6 @@
 [submodule "lib/Leaflet.markercluster"]
 	path = lib/Leaflet.markercluster
 	url = git@xbgbtx:Leaflet/Leaflet.markercluster.git
+[submodule "lib/Leaflet.EasyButton"]
+	path = lib/Leaflet.EasyButton
+	url = git@xbgbtx:CliffCloud/Leaflet.EasyButton.git
